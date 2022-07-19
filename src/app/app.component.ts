@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Produto } from '../models/produto.model';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ export class AppComponent {
             .subscribe(resultado => console.log(resultado));
   }
   listarTodosProdutos() {
-    this.http.get(`${ this.apiURL }/products`)
+    this.http.get<Produto[]>(`${ this.apiURL }/products`)
             .subscribe(resultado => console.log(resultado));
   }
   listarProdutoPorSlug() {
@@ -62,9 +63,10 @@ export class AppComponent {
               );
   }
   adicionarProduto() {
-    var produto = { nome : "" };
+    var produto = new Produto();
+    produto.nome = "Cadeira Gamer"
   
-    this.http.post(`${ this.apiURL }/products`, produto)
+    this.http.post<Produto>(`${ this.apiURL }/products`, produto)
               .subscribe(
                 resultado => {
                   console.log(resultado)
